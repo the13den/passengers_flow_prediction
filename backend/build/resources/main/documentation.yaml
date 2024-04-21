@@ -1,0 +1,96 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Login and Registration API
+  description: API for user authentication and registration
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /register:
+    post:
+      summary: Register new user
+      description: Endpoint to register a new user
+      parameters:
+        - name: request body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+              password:
+                type: string
+              email:
+                type: string
+      responses:
+        200:
+          description: User registered successfully
+        500:
+          description: Internal server error
+
+  /login:
+    post:
+      summary: Authenticate user
+      description: Endpoint to authenticate user and generate JWT token
+      parameters:
+        - name: request body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Successful authentication
+        401:
+          description: Unauthorized
+
+  /check-token:
+    get:
+      summary: Check validity of JWT token
+      description: Endpoint to check if JWT token is valid
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer Token
+          required: true
+          type: string
+      responses:
+        200:
+          description: Token is valid
+        401:
+          description: Token is invalid or missing
+
+  /refresh-token:
+    post:
+      summary: Refresh JWT token
+      description: Endpoint to refresh JWT token using refresh token
+      parameters:
+        - name: request body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              refreshToken:
+                type: string
+      responses:
+        200:
+          description: Token refreshed successfully
+          schema schema schema:
+            type: object
+            properties:
+              token:
+                type: string
+        401:
+          description: Unauthorized
